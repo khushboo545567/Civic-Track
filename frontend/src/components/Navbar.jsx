@@ -19,9 +19,11 @@ function Navbar({ isLoggedIn, setIsLoggedIn }) {
             <button className="bg-black text-white px-4 py-2 rounded-xl">
               MyIssue
             </button>
-            <button className="bg-black text-white px-4 py-2 rounded-xl">
-              Report Issue
-            </button>
+            <NavLink to="/report-issue">
+              <button className="bg-black text-white px-4 py-2 rounded-xl">
+                Report Issue
+              </button>
+            </NavLink>
           </>
         ) : (
           <>

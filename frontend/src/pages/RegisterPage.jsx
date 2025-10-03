@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { NavLink } from "react-router-dom";
 
 function RegisterPage() {
   const [formData, setFormData] = useState({
@@ -74,7 +75,10 @@ function RegisterPage() {
           </button>
         </form>
         <p className="text-center">
-          Already have an account? <a href="#">Login</a>
+          Already have an account?{" "}
+          <NavLink to="/login" className="text-blue-500 hover:underline">
+            Login
+          </NavLink>
         </p>
       </div>
     </div>

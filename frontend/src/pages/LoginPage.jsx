@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useOutletContext, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 function LoginPage() {
   const { setIsLoggedIn } = useOutletContext();
@@ -57,7 +58,10 @@ function LoginPage() {
           </button>
         </form>
         <p className="text-center">
-          Do not have an account ? <a href="">Register</a>
+          Dont have an account?{" "}
+          <NavLink to="/register" className="text-blue-500 hover:underline">
+            Register
+          </NavLink>
         </p>
       </div>
     </div>

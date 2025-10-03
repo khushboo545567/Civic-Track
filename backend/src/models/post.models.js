@@ -19,6 +19,7 @@ const postSchema = new mongoose.Schema(
     status: {
       type: String,
       enum: ["resolved", "in progress", "reported"],
+      default: "reported",
       required: true,
       index: true,
     },

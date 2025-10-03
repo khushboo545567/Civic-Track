@@ -8,24 +8,32 @@ function ReportIssue() {
     title: "",
     description: "",
     address: "",
-    postImage: "",
-    postVedio: "",
+    postImage: null,
+    postVedio: null,
   });
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+  const handleFileChange = () => {};
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
     } catch (error) {}
   };
   return (
-    <div className="w-full flex justify-center mt-10 pt-15">
+    <div className="w-full flex justify-center pt-10">
       <div className="flex flex-col gap-6 w-[400px] border border-gray-400 rounded-2xl px-8 py-14">
         <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-          <select>
-            <option value="">Street Light</option>
-            <option value="">Road</option>
+          <select
+            name="category"
+            value={formData.category}
+            onChange={handleChange}
+            className="outline-none border px-6 py-2 rounded-2xl"
+          >
+            <option value="">Select Category</option>
+            <option value="street-light">Street Light</option>
+            <option value="road">Road</option>
           </select>
           <input
             type="text"
@@ -43,16 +51,34 @@ function ReportIssue() {
             onChange={handleChange}
             className="outline-none border px-6 py-2 rounded-2xl"
           />
-          <input
-            type="text"
+          <textarea
             placeholder="Address"
             name="address"
             value={formData.address}
             onChange={handleChange}
-            className="outline-none border px-6 py-2 rounded-2xl"
+            rows="4"
+            className="outline-none border px-6 py-3 rounded-2xl resize-none"
           />
-          <input type="file" placeholder="Image" />
-          <input type="file" placeholder="Vedio" />
+          {/* file upload */}
+          <label className="cursor-pointer bg-gray-100 border px-6 py-3 rounded-2xl text-gray-600 hover:bg-gray-200">
+            Upload Image
+            <input
+              type="file"
+              name="postImage"
+              className="hidden"
+              onChange={handleChange}
+            />
+          </label>
+
+          <label className="cursor-pointer bg-gray-100 border px-6 py-3 rounded-2xl text-gray-600 hover:bg-gray-200">
+            Upload Video
+            <input
+              type="file"
+              name="postVideo"
+              className="hidden"
+              onChange={handleChange}
+            />
+          </label>
           <button
             type="submit"
             className="bg-black text-white py-2 rounded-2xl mt-4"
