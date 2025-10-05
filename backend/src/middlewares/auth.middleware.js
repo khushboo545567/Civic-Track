@@ -16,7 +16,6 @@ export const verifyJWT = async (req, res, next) => {
       throw new ApiError(401, "unauthorized request");
     }
 
-    console.log(token);
     const decodedToken = jwt.verify(token, process.env.JWT_ACCESS_SECRET);
 
     const user = await User.findById(decodedToken?._id).select(
