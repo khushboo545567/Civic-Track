@@ -11,10 +11,12 @@ export const verifyJWT = async (req, res, next) => {
   try {
     const token =
       req.cookies?.accessToken ||
-      req.header("Authorization")?.replace("Beared ", "");
+      req.header("Authorization")?.replace("Bearer ", "");
     if (!token) {
       throw new ApiError(401, "unauthorized request");
     }
+
+    console.log(token);
     const decodedToken = jwt.verify(token, process.env.JWT_ACCESS_SECRET);
 
     const user = await User.findById(decodedToken?._id).select(

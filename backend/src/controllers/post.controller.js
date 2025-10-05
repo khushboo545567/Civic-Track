@@ -5,6 +5,8 @@ import uploadOnCloudnary from "../utils/cloudinary.js";
 
 const postIssue = async (req, res, next) => {
   try {
+    console.log("datas are", req.body);
+    console.log("filse are", req.files);
     const { category, title, description, address } = req.body;
     if (
       !category?.trim() ||
@@ -31,7 +33,15 @@ const postIssue = async (req, res, next) => {
     if (!postImage) {
       throw new ApiError(400, "image is required");
     }
-
+    console.log("/////////////////////////////////");
+    console.log({
+      category,
+      title,
+      description,
+      address,
+      postImage: postImage.url,
+      postVideo: postVideo?.url || "",
+    });
     const postIssue = await Post.create({
       category,
       title,
@@ -39,11 +49,13 @@ const postIssue = async (req, res, next) => {
       address,
       postImage: postImage.url,
       postVideo: postVideo?.url || "", //in case the vedio is not present
-      reportedBy: req.user._id,
+      // reportedBy: req.user._id,
     });
+    console.log(postIssue);
+
     if (!postIssue) {
       throw new ApiError(500, "something went wrong while posting the issue");
-    }
+    } //i am not getting this it measn
 
     return res
       .status(201)

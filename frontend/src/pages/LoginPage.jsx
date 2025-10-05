@@ -17,7 +17,8 @@ function LoginPage() {
     try {
       const response = await axios.post(
         "http://localhost:3000/api/v1/users/login",
-        loginData
+        loginData,
+        { withCredentials: true }
       );
       console.log(response.data);
       if (response.data.statusCode == 200 || response.data.statusCode == 201) {

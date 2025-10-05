@@ -96,8 +96,8 @@ const loginUser = async (req, res, next) => {
 
     const options = {
       httpOnly: true,
-      secure: true, // use true in production with HTTPS
-      sameSite: "strict",
+      secure: false, // use true in production with HTTPS
+      sameSite: "lax",
     };
 
     return res
