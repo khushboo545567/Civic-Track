@@ -24,7 +24,11 @@ function ReportIssue() {
   return (
     <div className="w-full flex justify-center pt-10">
       <div className="flex flex-col gap-6 w-[400px] border border-gray-400 rounded-2xl px-8 py-14">
-        <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+        <form
+          onSubmit={handleSubmit}
+          className="flex flex-col gap-3"
+          encType="multipart/form-data"
+        >
           <select
             name="category"
             value={formData.category}
