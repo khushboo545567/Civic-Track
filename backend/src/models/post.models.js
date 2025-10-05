@@ -27,7 +27,7 @@ const postSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    postVedio: {
+    postVideo: {
       type: String,
     },
     address: {
