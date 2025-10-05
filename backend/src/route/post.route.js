@@ -1,7 +1,7 @@
 import { Router } from "express";
-import postIssue from "../controllers/post.controller";
-import { verifyJWT } from "../middlewares/auth.middleware";
-import upload from "../middlewares/multer.middleware";
+import postIssue from "../controllers/post.controller.js";
+import { verifyJWT } from "../middlewares/auth.middleware.js";
+import upload from "../middlewares/multer.middleware.js";
 
 const router = Router();
 router.route("/report-issue").post(
@@ -12,3 +12,5 @@ router.route("/report-issue").post(
   ]),
   postIssue
 );
+
+export default router;

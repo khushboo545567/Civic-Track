@@ -42,6 +42,11 @@ const postSchema = new mongoose.Schema(
       type: String,
       default: "Not assigned  yet",
     },
+    role: {
+      type: String,
+      enum: ["user", "admin"],
+      default: "user",
+    },
   },
   { timestamps: true }
 );
