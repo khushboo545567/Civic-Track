@@ -31,7 +31,7 @@ const postIssue = async (req, res, next) => {
     throw new ApiError(400, "image is required");
   }
 
-  Post.create({
+  const postIssue = await Post.create({
     category,
     title,
     description,
@@ -39,6 +39,13 @@ const postIssue = async (req, res, next) => {
     postImage: postImage.url,
     postVideo: postVideo?.url || "", //in case the vedio is not present
   });
+  if (!postIssue) {
+    throw new ApiError(500, "something went wrong while posting the issue");
+  }
+
+  return res
+    .status(201)
+    .json(new ApiResponse(200, postIssue, "issue posted sussfully"));
 };
 
 export default postIssue;
