@@ -39,7 +39,7 @@ const postIssue = async (req, res, next) => {
       address,
       postImage: postImage.url,
       postVideo: postVideo?.url || "", //in case the vedio is not present
-      // reportedBy: req.user._id,
+      reportedBy: req.user._id,
     });
 
     if (!postIssue) {
