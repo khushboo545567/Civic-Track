@@ -54,4 +54,21 @@ const postIssue = async (req, res, next) => {
   }
 };
 
-export default postIssue;
+const getPost = async (req, res, next) => {
+  try {
+    const posts = await Post.find().sort({ createdAt: -1 });
+
+    if (!posts || posts.length === 0) {
+      throw new ApiError(404, "No posts found");
+    }
+
+    return res
+      .status(200)
+      .json(new ApiResponse(200, posts, "Posts fetched successfully"));
+  } catch (error) {
+    console.log("Post is unable to fetch:", error);
+    next(error);
+  }
+};
+
+export { postIssue, getPost };
