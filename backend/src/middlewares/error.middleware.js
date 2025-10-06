@@ -1,7 +1,7 @@
 import { ApiError } from "../utils/apiError.js";
 
 export const errorHandler = (err, req, res, next) => {
-  // console.error("Error handler ", err);
+  console.error("Error handler ", err);
   if (err instanceof ApiError) {
     return res.status(err.statuscode).json({
       success: false,

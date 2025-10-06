@@ -120,46 +120,102 @@ const loginUser = async (req, res, next) => {
   }
 };
 
-const logoutUser = async (req, res) => {
+const logoutUser = async (req, res, next) => {
   // get the user details form the req which is added by the middleware
   // find by id and upadate that refresh token set to null
   // clear the token from the user
-
-  await User.findByIdAndUpdate(
-    req.user._id,
-    {
-      $set: {
-        refreshToken: undefined,
+  try {
+    await User.findByIdAndUpdate(
+      req.user._id,
+      {
+        $set: {
+          refreshToken: undefined,
+        },
       },
-    },
-    { new: true }
-  );
+      { new: true }
+    );
 
-  const options = {
-    httpOnly: true,
-    secure: true,
-  };
+    const options = {
+      httpOnly: true,
+      secure: true,
+    };
 
-  return res
-    .status(200)
-    .clearCookie("accessToken", options)
-    .clearCookie("refreshtoken")
-    .json(new ApiResponse(200, {}, "user looged out"));
+    return res
+      .status(200)
+      .clearCookie("accessToken", options)
+      .clearCookie("refreshtoken")
+      .json(new ApiResponse(200, {}, "user looged out"));
+  } catch (error) {
+    next(error);
+  }
 };
 
-const getCurrentUser = async (req, res) => {
+const getCurrentUser = async (req, res, next) => {
   // middleware add user in req
   // find the user by id
   // return
 
-  const user = await User.findById(req.user._id);
-  // get the reports as well
-  return res
-    .status(200)
-    .json(new ApiResponse(200, user, "get user successfully"));
+  try {
+    const userDetails = await User.aggregate([
+      { $match: { _id: req.user._id } },
+      {
+        $lookup: {
+          from: "posts",
+          localField: "_id",
+          foreignField: "reportedBy",
+          as: "posts",
+        },
+      },
+      {
+        $project: {
+          _id: 1,
+          name: 1,
+          email: 1,
+          phoneNo: 1,
+          roles: 1,
+          createdAt: 1,
+          posts: {
+            $map: {
+              input: "$posts",
+              as: "post",
+              in: {
+                _id: "$$post._id",
+                title: "$$post.title",
+                category: "$$post.category",
+                status: "$$post.status",
+                address: "$$post.address",
+                postImage: "$$post.postImage",
+                createdAt: "$$post.createdAt",
+              },
+            },
+          },
+        },
+      },
+    ]);
+    if (!userDetails || userDetails.length === 0) {
+      throw new ApiError(404, "User not found");
+    }
+    const formattedData = {
+      user: {
+        _id: userDetails[0]._id,
+        name: userDetails[0].name,
+        email: userDetails[0].email,
+        phoneNo: userDetails[0].phoneNo,
+        roles: userDetails[0].roles,
+        postImage: userDetails[0].postImage,
+        createdAt: userDetails[0].createdAt,
+      },
+      posts: userDetails[0].posts,
+    };
+    return res
+      .status(200)
+      .json(new ApiResponse(200, formattedData, "User fetched successfully"));
+  } catch (error) {
+    next(error);
+  }
 };
 
-const refreshAccessToken = async (req, res) => {
+const refreshAccessToken = async (req, res, next) => {
   // get the refresh token form req,
   // check ref Present or not
   // verify token
@@ -226,49 +282,57 @@ const refreshAccessToken = async (req, res) => {
           "access token is refreshed"
         )
       );
-  } catch (error) {}
+  } catch (error) {
+    next(error);
+  }
 };
 
-const changePassword = async (req, res) => {
+const changePassword = async (req, res, next) => {
   // get the current password and old password
   // get user
   // compare the both password
   // if correct store the current pss in db
   // return res
-
-  const { oldPassword, newPassword } = req.body;
-  const user = await User.findById(req.user._id);
-  const ispassCorrect = await bcrypt.compare(oldPassword, user.password);
-  if (!ispassCorrect) {
-    throw new ApiError(400, "invalid password");
+  try {
+    const { oldPassword, newPassword } = req.body;
+    const user = await User.findById(req.user._id);
+    const ispassCorrect = await bcrypt.compare(oldPassword, user.password);
+    if (!ispassCorrect) {
+      throw new ApiError(400, "invalid password");
+    }
+    user.password = newPassword;
+    await user.save({ validateBeforeSave: false });
+    return res
+      .status(200)
+      .json(new ApiResponse(200, {}, "password changed successfully"));
+  } catch (error) {
+    next(error);
   }
-  user.password = newPassword;
-  await user.save({ validateBeforeSave: false });
-  return res
-    .status(200)
-    .json(new ApiResponse(200, {}, "password changed successfully"));
 };
-const updateAccount = async (req, res) => {
+const updateAccount = async (req, res, next) => {
   // get the details to change
   // check if they are present or not
   // set the changes to the db
   // send response
+  try {
+    const { name, email, phoneNo } = req.body;
+    if (!name || !email || !phoneNo) {
+      throw new ApiError(400, "fields are required");
+    }
+    const user = await User.findByIdAndUpdate(
+      req.user?._id,
+      {
+        $set: { name, email, phoneNo },
+      },
+      { new: true }
+    ).select("-password -refreshtoken");
 
-  const { name, email, phoneNo } = req.body;
-  if (!name || !email || !phoneNo) {
-    throw new ApiError(400, "fields are required");
+    return res
+      .status(200)
+      .json(new ApiResponse(200, user, "profile successfully updated"));
+  } catch (error) {
+    next(error);
   }
-  const user = await User.findByIdAndUpdate(
-    req.user?._id,
-    {
-      $set: { name, email, phoneNo },
-    },
-    { new: true }
-  ).select("-password -refreshtoken");
-
-  return res
-    .status(200)
-    .json(new ApiResponse(200, user, "profile successfully updated"));
 };
 
 export {
