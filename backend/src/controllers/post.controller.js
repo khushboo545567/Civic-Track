@@ -71,4 +71,27 @@ const getPost = async (req, res, next) => {
   }
 };
 
-export { postIssue, getPost };
+const getFilteredPost = async (req, res, next) => {
+  try {
+    const { category, status } = req.query;
+    const filter = {};
+    if (category) filter.category = category;
+    if (status) filter.status = status;
+
+    const posts = await Post.find(filter).sort({ createdAt: -1 });
+    if (!posts || posts.length === 0) {
+      return new ApiResponse(
+        200,
+        "No such post is created yet with this field "
+      );
+    }
+    return res
+      .status(200)
+      .json(new ApiResponse(200, posts, "posts fetched successfully"));
+  } catch (error) {
+    console.log("Error fetching filtered posts:", error);
+    next(error);
+  }
+};
+
+export { postIssue, getPost, getFilteredPost };

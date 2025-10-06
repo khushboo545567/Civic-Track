@@ -1,5 +1,9 @@
 import { Router } from "express";
-import { getPost, postIssue } from "../controllers/post.controller.js";
+import {
+  getFilteredPost,
+  getPost,
+  postIssue,
+} from "../controllers/post.controller.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
 import upload from "../middlewares/multer.middleware.js";
 
@@ -14,5 +18,6 @@ router.route("/report-issue").post(
 );
 
 router.route("/get-allPosts").get(getPost);
+router.route("/filtered-posts").get(getFilteredPost);
 
 export default router;
