@@ -192,6 +192,8 @@ const getCurrentUser = async (req, res, next) => {
         },
       },
     ]);
+
+    console.log(userDetails);
     if (!userDetails || userDetails.length === 0) {
       throw new ApiError(404, "User not found");
     }
