@@ -80,10 +80,11 @@ const getFilteredPost = async (req, res, next) => {
 
     const posts = await Post.find(filter).sort({ createdAt: -1 });
     if (!posts || posts.length === 0) {
-      return new ApiResponse(
-        200,
-        "No such post is created yet with this field "
-      );
+      return res
+        .status(200)
+        .json(
+          new ApiResponse(200, [], "No posts found with the given filters")
+        );
     }
     return res
       .status(200)
