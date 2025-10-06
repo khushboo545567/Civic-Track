@@ -153,6 +153,7 @@ const getCurrentUser = async (req, res) => {
   // return
 
   const user = await User.findById(req.user._id);
+  // get the reports as well
   return res
     .status(200)
     .json(new ApiResponse(200, user, "get user successfully"));

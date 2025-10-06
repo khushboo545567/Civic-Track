@@ -1,18 +1,36 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect } from "react";
 import { NavLink } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function Navbar({ isLoggedIn, setIsLoggedIn }) {
+  const handleLogout = () => {
+    axios
+      .get("http://localhost:3000/api/v1/users/logout", {
+        withCredentials: true,
+      })
+      .then(() => {
+        setIsLoggedIn(false);
+        toast.success("User logged out sussfully.");
+      })
+      .catch((err) => {
+        console.log("User not logged out", err);
+        toast.error("something went wrong ");
+      });
+  };
   return (
     <div className="bg-white flex justify-between px-20 py-4 border-b border-gray-300">
       <div>
-        <h1 className="text-orange-500 text-3xl font-bold">CivicTrack</h1>
+        <NavLink to="/">
+          <h1 className="text-orange-500 text-3xl font-bold">CivicTrack</h1>
+        </NavLink>
       </div>
       <div className="flex gap-3">
         {isLoggedIn ? (
           <>
             <button
               className="bg-black text-white px-4 py-2 rounded-xl"
-              onClick={() => setIsLoggedIn(false)}
+              onClick={handleLogout}
             >
               Logout
             </button>

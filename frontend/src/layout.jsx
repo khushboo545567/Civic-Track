@@ -9,6 +9,7 @@ import axios from "axios";
 
 export default function Layout() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState(null);
 
   // THIS WORKS BUT WITH HTTPONLY:FALSE , THAT MAKE TOKEN TO BE ACCESS FORM THE JS THIS IS NOT SAFE SO , MAKE THE DB CALL TO VERIFY THE USER AUTH
 
@@ -28,13 +29,15 @@ export default function Layout() {
   // 👋👋👋👋👋
 
   // IN PRODUCTION LEVEL USE THE DB CALL
-
   useEffect(() => {
     axios
       .get("http://localhost:3000/api/v1/users/profile", {
         withCredentials: true,
       })
-      .then(() => setIsLoggedIn(true))
+      .then((response) => {
+        setIsLoggedIn(true);
+        setUser(response.data);
+      })
       .catch(() => setIsLoggedIn(false));
   }, []);
 
