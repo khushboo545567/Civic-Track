@@ -15,7 +15,7 @@ function Card({
     year: "numeric",
   });
   return (
-    <div className="border border-gray-300 rounded-2xl p-6 w-[350px] flex gap-4 flex-col  ">
+    <div className="border border-gray-300 rounded-2xl p-6 w-[350px] flex gap-4 flex-col  cursor-pointer">
       <img
         src={postImage}
         alt="Image of civic issue"

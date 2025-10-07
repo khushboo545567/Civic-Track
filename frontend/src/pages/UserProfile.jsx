@@ -36,10 +36,15 @@ function UserProfile() {
     fetchProfile();
   }, []);
 
-  if (!profile) return <p>Loading profile...</p>;
+  if (!profile)
+    return (
+      <p className="min-h-screen text-2xl font-bold flex justify-center items-center ">
+        Loading profile...
+      </p>
+    );
 
   return (
-    <div className="px-30 py-10">
+    <div className="px-4 sm:px-8 md:px-16 lg:px-24 py-10">
       <div className="mb-6 border-b pb-4">
         <h1 className="text-2xl font-bold mb-2">User Details</h1>
         <div>
@@ -59,10 +64,10 @@ function UserProfile() {
       </div>
 
       <div>
-        <h2 className="text-xl font-semibold mb-2">
+        <h2 className="text-xl font-semibold mb-8">
           Number of Posts: {posts.length}
         </h2>
-        <div className="flex flex-wrap gap-4">
+        <div className="flex flex-wrap gap-6 justify-center">
           {posts.map((post) => (
             <CardProfile
               key={post._id}
