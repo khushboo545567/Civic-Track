@@ -26,7 +26,7 @@ function UserProfile() {
           "http://localhost:3000/api/v1/users/profile",
           { withCredentials: true }
         );
-        setProfile(response.data.data);
+        setProfile(response.data.data.user);
         setPosts(response.data.data.posts || []); // assuming profile has posts
       } catch (error) {
         console.error("Cannot fetch user profile:", error);
@@ -39,7 +39,7 @@ function UserProfile() {
   if (!profile) return <p>Loading profile...</p>;
 
   return (
-    <div className="p-6">
+    <div className="px-30 py-10">
       <div className="mb-6 border-b pb-4">
         <h1 className="text-2xl font-bold mb-2">User Details</h1>
         <div>
@@ -50,10 +50,10 @@ function UserProfile() {
             <strong>Email:</strong> {profile.email}
           </p>
           <p>
-            <strong>Contact Number:</strong> {profile.contactNumber}
+            <strong>Contact Number:</strong> {profile.phoneNo}
           </p>
           <p>
-            <strong>Role:</strong> {profile.role}
+            <strong>Role:</strong> {profile.roles}
           </p>
         </div>
       </div>
