@@ -17,16 +17,17 @@ const postIssue = async (req, res, next) => {
 
     //   now get the files form the server uploded by the multer
 
-    // console.log(req.files);
     const postImageLocalPath = req.files?.postImage[0]?.path;
-    const postVideoLocalPath = req.files?.postVideo[0]?.path;
-
+    const postVideoLocalPath = req.files?.postVideo?.[0]?.path || null;
     if (!postImageLocalPath) {
       throw new ApiError(400, "image is required");
     }
 
     const postImage = await uploadOnCloudnary(postImageLocalPath);
-    const postVideo = await uploadOnCloudnary(postVideoLocalPath);
+    let postVideo = null;
+    if (postVideoLocalPath) {
+      postVideo = await uploadOnCloudnary(postVideoLocalPath);
+    }
 
     if (!postImage) {
       throw new ApiError(400, "image is required");
@@ -59,7 +60,8 @@ const getPost = async (req, res, next) => {
     const posts = await Post.find().sort({ createdAt: -1 });
 
     if (!posts || posts.length === 0) {
-      throw new ApiError(404, "No posts found");
+      // throw new ApiError(404, "No posts found");
+      return res.status(404).json(new ApiResponse(404, "No posts found !"));
     }
 
     return res

@@ -15,103 +15,141 @@ function ReportIssue() {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+
   const handleFileChange = (e) => {
     const { name, files } = e.target;
     setFormData({ ...formData, [name]: files[0] });
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const data = new FormData();
-      data.append("category", formData.category);
-      data.append("title", formData.title);
-      data.append("address", formData.address);
-      data.append("description", formData.description);
-      if (formData.postImage) data.append("postImage", formData.postImage);
-      if (formData.postVideo) data.append("postVideo", formData.postVideo);
+      Object.entries(formData).forEach(([key, value]) => {
+        if (value) data.append(key, value);
+      });
 
-      console.log(data);
       const response = await axios.post(
         "http://localhost:3000/api/v1/post/report-issue",
         data,
         { withCredentials: true }
       );
-      console.log(response?.data);
-      if (response.data.statusCode == 200 || response.data.statusCode == 201) {
-        toast.success("issue is reported sussfully");
+
+      if (
+        response.data.statusCode === 200 ||
+        response.data.statusCode === 201
+      ) {
+        toast.success("Issue reported successfully!");
+        setFormData({
+          category: "",
+          title: "",
+          description: "",
+          address: "",
+          postImage: null,
+          postVideo: null,
+        });
       }
-      return;
     } catch (error) {
       console.error(error);
-      toast.error("something went wrong while reporting the issue");
-      return;
+      toast.error("Something went wrong while reporting the issue.");
     }
   };
+
   return (
-    <div className="w-full flex justify-center pt-10">
-      <div className="flex flex-col gap-6 w-[400px] border border-gray-400 rounded-2xl px-8 py-14">
+    <div className="flex justify-center py-16 px-4 bg-gray-50 min-h-screen">
+      <div className="bg-white border border-gray-200 shadow-lg rounded-2xl w-full max-w-md p-8">
+        <h2 className="text-2xl font-semibold text-gray-800 mb-6 text-center">
+          Report an Issue 🧾
+        </h2>
+
         <form
           onSubmit={handleSubmit}
-          className="flex flex-col gap-3"
+          className="flex flex-col gap-4"
           encType="multipart/form-data"
         >
+          {/* Category */}
           <select
             name="category"
             value={formData.category}
             onChange={handleChange}
-            className="outline-none border px-6 py-2 rounded-2xl"
+            className="border border-gray-300 focus:ring-2 focus:ring-amber-400 px-4 py-3 rounded-xl outline-none text-gray-700"
           >
             <option value="">Select Category</option>
             <option value="streetlight">Streetlight</option>
             <option value="road">Road</option>
           </select>
+
+          {/* Title */}
           <input
             type="text"
-            placeholder="Title"
+            placeholder="Enter issue title"
             name="title"
             value={formData.title}
             onChange={handleChange}
-            className="outline-none border px-6 py-2 rounded-2xl"
+            className="border border-gray-300 focus:ring-2 focus:ring-amber-400 px-4 py-3 rounded-xl outline-none text-gray-700"
           />
-          <input
-            type="text"
-            placeholder="Description"
+
+          {/* Description */}
+          <textarea
+            placeholder="Describe the issue..."
             name="description"
             value={formData.description}
             onChange={handleChange}
-            className="outline-none border px-6 py-2 rounded-2xl"
+            rows="3"
+            className="border border-gray-300 focus:ring-2 focus:ring-amber-400 px-4 py-3 rounded-xl outline-none text-gray-700 resize-none"
           />
+
+          {/* Address */}
           <textarea
-            placeholder="Address"
+            placeholder="Enter the address or location"
             name="address"
             value={formData.address}
             onChange={handleChange}
-            rows="4"
-            className="outline-none border px-6 py-3 rounded-2xl resize-none"
+            rows="3"
+            className="border border-gray-300 focus:ring-2 focus:ring-amber-400 px-4 py-3 rounded-xl outline-none text-gray-700 resize-none"
           />
-          {/* file upload */}
-          <label className="cursor-pointer bg-gray-100 border px-6 py-3 rounded-2xl text-gray-600 hover:bg-gray-200">
-            Upload Image
-            <input
-              type="file"
-              name="postImage"
-              className="hidden"
-              onChange={handleFileChange}
-            />
-          </label>
 
-          <label className="cursor-pointer bg-gray-100 border px-6 py-3 rounded-2xl text-gray-600 hover:bg-gray-200">
-            Upload Video
-            <input
-              type="file"
-              name="postVideo"
-              className="hidden"
-              onChange={handleFileChange}
-            />
-          </label>
+          {/* File Upload */}
+          <div className="flex flex-col gap-3">
+            {/* Image Upload */}
+            <label className="cursor-pointer bg-amber-50 border border-dashed border-amber-300 px-4 py-3 rounded-xl text-gray-600 hover:bg-amber-100 transition text-center">
+              Upload Image
+              <input
+                type="file"
+                name="postImage"
+                accept="image/*"
+                className="hidden"
+                onChange={handleFileChange}
+              />
+            </label>
+            {formData.postImage && (
+              <p className="text-sm text-green-600 text-center">
+                📸 {formData.postImage.name}
+              </p>
+            )}
+
+            {/* Video Upload */}
+            <label className="cursor-pointer bg-amber-50 border border-dashed border-amber-300 px-4 py-3 rounded-xl text-gray-600 hover:bg-amber-100 transition text-center">
+              Upload Video
+              <input
+                type="file"
+                name="postVideo"
+                accept="video/*"
+                className="hidden"
+                onChange={handleFileChange}
+              />
+            </label>
+            {formData.postVideo && (
+              <p className="text-sm text-blue-600 text-center">
+                🎥 {formData.postVideo.name}
+              </p>
+            )}
+          </div>
+
+          {/* Submit Button */}
           <button
             type="submit"
-            className="bg-black text-white py-2 rounded-2xl mt-4"
+            className="bg-orange-500 hover:bg-amber-600 text-white font-semibold py-3 rounded-xl mt-2 transition-all shadow-md hover:shadow-lg"
           >
             Report Issue
           </button>
