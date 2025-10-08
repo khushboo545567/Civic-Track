@@ -1,7 +1,9 @@
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import path from "path";
 
+const _dirname = path.resolve();
 const app = express();
 
 app.use(
@@ -25,4 +27,9 @@ app.use("/api/v1/users", userRouter);
 app.use("/api/v1/post", postRouter);
 
 app.use(errorHandler);
+
+app.use(express.static(path.join(_dirname, "/frontend/dist")));
+app.get((req, res) => {
+  res.sendFile(path.resolve(_dirname, "frontend", "dist", "index.html"));
+});
 export { app };
