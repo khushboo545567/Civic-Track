@@ -23,7 +23,7 @@ function UserProfile() {
     const fetchProfile = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/api/v1/users/profile",
+          "https://civic-track-e6hx.onrender.com/api/v1/users/profile",
           { withCredentials: true }
         );
         setProfile(response.data.data.user);

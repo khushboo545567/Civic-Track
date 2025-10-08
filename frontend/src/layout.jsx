@@ -31,7 +31,7 @@ export default function Layout() {
   // IN PRODUCTION LEVEL USE THE DB CALL
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/v1/users/profile", {
+      .get("https://civic-track-e6hx.onrender.com/api/v1/users/profile", {
         withCredentials: true,
       })
       .then((response) => {

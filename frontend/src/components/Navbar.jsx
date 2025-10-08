@@ -10,7 +10,7 @@ function Navbar({ isLoggedIn, setIsLoggedIn }) {
 
   const handleLogout = () => {
     axios
-      .get("http://localhost:3000/api/v1/users/logout", {
+      .get("https://civic-track-e6hx.onrender.com/api/v1/users/logout", {
         withCredentials: true,
       })
       .then(() => {

@@ -13,8 +13,8 @@ function HomePage() {
       try {
         const query = new URLSearchParams(filter).toString();
         const url = query
-          ? `http://localhost:3000/api/v1/post/filtered-posts?${query}`
-          : "http://localhost:3000/api/v1/post/get-allPosts";
+          ? `https://civic-track-e6hx.onrender.com/api/v1/post/filtered-posts?${query}`
+          : "https://civic-track-e6hx.onrender.com/api/v1/post/get-allPosts";
         const response = await axios.get(url);
         setPost(response.data.data);
         setIsLoading(false);

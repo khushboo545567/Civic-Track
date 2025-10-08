@@ -30,7 +30,7 @@ function ReportIssue() {
       });
 
       const response = await axios.post(
-        "http://localhost:3000/api/v1/post/report-issue",
+        "https://civic-track-e6hx.onrender.com/api/v1/post/report-issue",
         data,
         { withCredentials: true }
       );
