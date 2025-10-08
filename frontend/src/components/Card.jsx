@@ -1,6 +1,8 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 function Card({
+  _id,
   title,
   address,
   category,
@@ -9,13 +11,17 @@ function Card({
   postImage,
   createdAt,
 }) {
+  const navigate = useNavigate();
   const formattedDate = new Date(createdAt).toLocaleString("en-IN", {
     day: "2-digit",
     month: "short",
     year: "numeric",
   });
   return (
-    <div className="border border-gray-300 rounded-2xl p-6 w-[350px] flex gap-4 flex-col  cursor-pointer">
+    <div
+      onClick={() => navigate(`/card/${_id}`)}
+      className="border border-gray-300 rounded-2xl p-6 w-[350px] flex gap-4 flex-col  cursor-pointer"
+    >
       <img
         src={postImage}
         alt="Image of civic issue"

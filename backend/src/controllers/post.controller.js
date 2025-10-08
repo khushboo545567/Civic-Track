@@ -2,6 +2,7 @@ import { ApiError } from "../utils/apiError.js";
 import { ApiResponse } from "../utils/apiResponse.js";
 import { Post } from "../models/post.models.js";
 import uploadOnCloudnary from "../utils/cloudinary.js";
+import e from "express";
 
 const postIssue = async (req, res, next) => {
   try {
@@ -97,4 +98,22 @@ const getFilteredPost = async (req, res, next) => {
   }
 };
 
-export { postIssue, getPost, getFilteredPost };
+const getOneCardDetails = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const cardDetails = await Post.findById({ _id: id });
+    if (!cardDetails) {
+      return res.status(404).json(new ApiResponse(404, null, "card not found"));
+    }
+    return res
+      .status(200)
+      .json(
+        new ApiResponse(200, cardDetails, "card details fetched sussfully")
+      );
+  } catch (error) {
+    console.log("error occurs while fetching the card detail in db  ", error);
+    next(error);
+  }
+};
+
+export { postIssue, getPost, getFilteredPost, getOneCardDetails };

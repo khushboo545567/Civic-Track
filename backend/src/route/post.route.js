@@ -1,6 +1,7 @@
 import { Router } from "express";
 import {
   getFilteredPost,
+  getOneCardDetails,
   getPost,
   postIssue,
 } from "../controllers/post.controller.js";
@@ -19,5 +20,6 @@ router.route("/report-issue").post(
 
 router.route("/get-allPosts").get(getPost);
 router.route("/filtered-posts").get(getFilteredPost);
+router.route("/card-details/:id").get(getOneCardDetails);
 
 export default router;

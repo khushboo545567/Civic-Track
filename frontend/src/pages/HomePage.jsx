@@ -143,6 +143,7 @@ function HomePage() {
                 {posts.map((post) => (
                   <li key={post._id} className="flex justify-center w-full">
                     <Card
+                      _id={post._id}
                       title={post.title}
                       address={post.address}
                       category={post.category}
