@@ -5,9 +5,9 @@ import { app } from "./app.js";
 dbConnection()
   .then(() => {
     app.listen(3000, () => {
-      console.log("listening on port 3000");
+      console.log("Server started successfully");
     });
   })
   .catch((error) => {
-    console.log("mongoDb connection failed ", error);
+    console.log("Database connection failed");
   });

@@ -15,11 +15,12 @@ function CardDetails() {
           withCredentials: true,
         }
       );
-      console.log(response.data.data);
+
       setPost(response.data.data);
       setIsLoading(false);
     } catch (error) {
-      console.log("error occur when data is fetching for card", error);
+      console.error("Failed to fetch card details:", error.message);
+      setIsLoading(false);
     }
   }
 

@@ -30,7 +30,7 @@ function LoginPage() {
         navigate("/");
       }
     } catch (error) {
-      console.log("Error:", error.response?.data?.message || error.message);
+      console.error("Error:", error.response?.data?.message || error.message);
       toast.error(error.response?.data?.message || error.message);
     }
   };

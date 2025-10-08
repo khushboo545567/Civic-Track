@@ -69,7 +69,7 @@ const getPost = async (req, res, next) => {
       .status(200)
       .json(new ApiResponse(200, posts, "Posts fetched successfully"));
   } catch (error) {
-    console.log("Post is unable to fetch:", error);
+    console.error("Post is unable to fetch:", error.message);
     next(error);
   }
 };
@@ -93,7 +93,7 @@ const getFilteredPost = async (req, res, next) => {
       .status(200)
       .json(new ApiResponse(200, posts, "posts fetched successfully"));
   } catch (error) {
-    console.log("Error fetching filtered posts:", error);
+    console.error("Error fetching filtered posts:", error.message);
     next(error);
   }
 };
@@ -111,7 +111,10 @@ const getOneCardDetails = async (req, res, next) => {
         new ApiResponse(200, cardDetails, "card details fetched sussfully")
       );
   } catch (error) {
-    console.log("error occurs while fetching the card detail in db  ", error);
+    console.error(
+      "error occurs while fetching the card detail in db  ",
+      error.message
+    );
     next(error);
   }
 };
