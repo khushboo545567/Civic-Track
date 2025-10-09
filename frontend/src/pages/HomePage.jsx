@@ -15,7 +15,7 @@ function HomePage() {
         const url = query
           ? `https://civic-track-e6hx.onrender.com/api/v1/post/filtered-posts?${query}`
           : "https://civic-track-e6hx.onrender.com/api/v1/post/get-allPosts";
-        const response = await axios.get(url);
+        const response = await axios.get(url, { withCredentials: false });
         setPost(response.data.data);
         setIsLoading(false);
       } catch (error) {

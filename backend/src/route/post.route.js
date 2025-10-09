@@ -10,7 +10,7 @@ import upload from "../middlewares/multer.middleware.js";
 
 const router = Router();
 router.route("/report-issue").post(
-  verifyJWT,
+  verifyJWT(true),
   upload.fields([
     { name: "postImage", maxCount: 1 },
     { name: "postVideo", maxCount: 1 },
@@ -18,8 +18,8 @@ router.route("/report-issue").post(
   postIssue
 );
 
-router.route("/get-allPosts").get(getPost);
-router.route("/filtered-posts").get(getFilteredPost);
-router.route("/card-details/:id").get(getOneCardDetails);
+router.route("/get-allPosts").get(verifyJWT(false), getPost);
+router.route("/filtered-posts").get(verifyJWT(false), getFilteredPost);
+router.route("/card-details/:id").get(verifyJWT(false), getOneCardDetails);
 
 export default router;
