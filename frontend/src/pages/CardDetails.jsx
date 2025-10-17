@@ -10,7 +10,7 @@ function CardDetails() {
   async function fetchCard() {
     try {
       const response = await axios.get(
-        `https://civic-track-e6hx.onrender.com/api/v1/post/card-details/${id}`,
+        `https://civic-track-260d.onrender.com/api/v1/post/card-details/${id}`,
         {
           withCredentials: true,
         }

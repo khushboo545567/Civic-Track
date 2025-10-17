@@ -21,7 +21,7 @@ function RegisterPage() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "https://civic-track-e6hx.onrender.com/api/v1/users/register",
+        "https://civic-track-260d.onrender.com/api/v1/users/register",
         formData,
         { withCredentials: true }
       );
