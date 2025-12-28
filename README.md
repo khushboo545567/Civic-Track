@@ -3,8 +3,8 @@
 **CivicTrack** is a full-stack civic issue reporting platform that allows users to report local issues by uploading images or videos. The platform helps citizens raise issues transparently and enables better tracking through categories and status updates.
 
 ## Live Demo
- Live URL: https://civic-track-260d.onrender.com/
- GitHub Repository: https://github.com/khushboo545567/Civic-Track
+Live URL: https://civic-track-260d.onrender.com/  
+GitHub Repository: https://github.com/khushboo545567/Civic-Track
 
 ---
 
@@ -44,7 +44,7 @@ CivicTrack allows users to log in, report civic issues by uploading images or vi
 - MongoDB
 - Git
 
-### Backend Setup
+### Setup
 ```bash
 cd backend
 npm install
